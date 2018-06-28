@@ -76,12 +76,12 @@ For hardware choices first see:
 
 #### Install Cassandra (on all node)
 
-`echo "deb http://www.apache.org/dist/cassandra/debian 311x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list  
-curl https://www.apache.org/dist/cassandra/KEYS | sudo apt-key add -  
-sudo apt-get update  
-sudo apt-get install cassandra  
-sudo service cassandra start  
-nodetool status`
+`echo "deb http://www.apache.org/dist/cassandra/debian 311x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list`  
+`curl https://www.apache.org/dist/cassandra/KEYS | sudo apt-key add -`  
+`sudo apt-get update`  
+`sudo apt-get install cassandra`  
+`sudo service cassandra start`  
+`nodetool status`
 
 Configuration files is */etc/cassandra/cassandra.yaml*. Check following:
 
@@ -105,12 +105,12 @@ Start-up options (heap size, etc) can be configured in */etc/default/cassandra*.
 
 Open ports:
 
-`sudo ufw allow 9142
-sudo ufw allow 9160
-sudo ufw allow 9042
-sudo ufw allow 7199
-sudo ufw allow 7001
-sudo ufw allow 7000`
+`sudo ufw allow 9142`  
+`sudo ufw allow 9160`  
+`sudo ufw allow 9042`  
+`sudo ufw allow 7199`  
+`sudo ufw allow 7001`  
+`sudo ufw allow 7000`
 
 #### Add auth and user
 
@@ -160,26 +160,26 @@ Do not forget to change username/password in:
 
 #### Download and install Spark (on all node)
 
-`sudo wget http://d3kbcqa49mib13.cloudfront.net/spark-2.2.0-bin-hadoop2.7.tgz
-sudo tar zxf spark-2.2.0-bin-hadoop2.7.tgz
-sudo mv ~/spark-2.2.0-bin-hadoop2.7 /spark`
+`sudo wget http://d3kbcqa49mib13.cloudfront.net/spark-2.2.0-bin-hadoop2.7.tgz`  
+`sudo tar zxf spark-2.2.0-bin-hadoop2.7.tgz`  
+`sudo mv ~/spark-2.2.0-bin-hadoop2.7 /spark`
 
-`PATH=$PATH:/spark/bin
-export PATH
-export SPARK_HOME=/spark
-export SPARK_LOG_DIR=/var/log/spark
-export SPARK_PID_DIR=${SPARK_HOME}/run
-export SPARK_MASTER_HOST=<ip>
-source /etc/environment`
+`PATH=$PATH:/spark/bin`  
+`export PATH`  
+`export SPARK_HOME=/spark`  
+`export SPARK_LOG_DIR=/var/log/spark`  
+`export SPARK_PID_DIR=${SPARK_HOME}/run`  
+`export SPARK_MASTER_HOST=<ip>`  
+`source /etc/environment`
 
-`sudo adduser spark --system --home /spark/ --disabled-password
-sudo chown -R spark:root /spark
-sudo mkdir /var/log/spark
-sudo chown spark:root /var/log/spark
-sudo -u spark mkdir $SPARK_HOME/run
-sudo cp /spark/conf/spark-env.sh.template /spark/conf/spark-env.sh
-sudo cp /spark/conf/spark-defaults.conf.template /spark/conf/spark-defaults.conf
-sudo chown spark:root /spark/conf/spark-*`
+`sudo adduser spark --system --home /spark/ --disabled-password`  
+`sudo chown -R spark:root /spark`  
+`sudo mkdir /var/log/spark`  
+`sudo chown spark:root /var/log/spark`  
+`sudo -u spark mkdir $SPARK_HOME/run`  
+`sudo cp /spark/conf/spark-env.sh.template /spark/conf/spark-env.sh`  
+`sudo cp /spark/conf/spark-defaults.conf.template /spark/conf/spark-defaults.conf`  
+`sudo chown spark:root /spark/conf/spark-*`
 
 Edit */spark/conf/spark-defaults.conf*:
 
@@ -198,13 +198,13 @@ SPARK_MASTER_HOST=  <master_ip>
 
 #### Download and install Spark-Cassandra Connector (on all node)
 
-`git clone https://github.com/datastax/spark-cassandra-connector.git
-cd spark-cassandra-connector
-sudo git checkout v2.0.5
-sudo sbt -Dscala-2.11=true assembly
-sudo find . -iname "*.jar" -type f -exec /bin/cp {} /spark/jars/ \;
-cd ~/spark-cassandra-connector/target/full/scala-2.11/
-sudo cp spark-cassandra-connector-assembly-2.0.5.jar /spark/jars/spark-cassandra-connector-assembly-2.0.5.jar`
+`git clone https://github.com/datastax/spark-cassandra-connector.git`  
+`cd spark-cassandra-connector`  
+`sudo git checkout v2.0.5`  
+`sudo sbt -Dscala-2.11=true assembly`  
+`sudo find . -iname "*.jar" -type f -exec /bin/cp {} /spark/jars/ \;`  
+`cd ~/spark-cassandra-connector/target/full/scala-2.11/`  
+`sudo cp spark-cassandra-connector-assembly-2.0.5.jar /spark/jars/spark-cassandra-connector-assembly-2.0.5.jar`  
 
 Check also:
 
@@ -215,18 +215,17 @@ Check also:
 
 Edit */spark/sbin/start-master-slave.sh* (here 1 master node and 4 worker nodes):
 
-`"${SPARK_HOME}/sbin"/start-master.sh --host <spark_master_ip>
-"${SPARK_HOME}/sbin"/start-slave.sh --host <spark_master_ip> spark://<spark_master_ip>:7077
-"${SPARK_HOME}/sbin"/start-slave.sh --host <spark_worker_node_2_ip> spark://<spark_master_ip>:7077
-"${SPARK_HOME}/sbin"/start-slave.sh --host <spark_worker_node_3_ip> spark://<spark_master_ip>:7077
-"${SPARK_HOME}/sbin"/start-slave.sh --host <spark_worker_node_4_ip> spark://<spark_master_ip>:7077`
+`"${SPARK_HOME}/sbin"/start-master.sh --host <spark_master_ip>`  
+`"${SPARK_HOME}/sbin"/start-slave.sh --host <spark_master_ip> spark://<spark_master_ip>:7077`  
+`"${SPARK_HOME}/sbin"/start-slave.sh --host <spark_worker_node_2_ip> spark://<spark_master_ip>:7077`  
+`"${SPARK_HOME}/sbin"/start-slave.sh --host <spark_worker_node_3_ip> spark://<spark_master_ip>:7077`  
+`"${SPARK_HOME}/sbin"/start-slave.sh --host <spark_worker_node_4_ip> spark://<spark_master_ip>:7077`
 
 Create service:
 
-`cd /etc/systemd/system
-sudo nano spark-master-slave.service
-sudo chmod -v 777 /etc/systemd/system/spark-master-slave.service
-`
+`cd /etc/systemd/system`  
+`sudo nano spark-master-slave.service`  
+`sudo chmod -v 777 /etc/systemd/system/spark-master-slave.service`
 
 spark-master-slave.service:
 
@@ -251,22 +250,22 @@ StartLimitBurst=10
 [Install]
 WantedBy=multi-user.target
 ```
-`sudo systemctl enable spark-master-slave.service
-sudo systemctl daemon-reload`
+`sudo systemctl enable spark-master-slave.service`  
+`sudo systemctl daemon-reload`
 
-`sudo systemctl start spark-master-slave.service
-sudo systemctl stop spark-master-slave.service`
+`sudo systemctl start spark-master-slave.service`  
+`sudo systemctl stop spark-master-slave.service`
 
-`sudo ufw allow 7077
-sudo ufw allow 8080
-sudo ufw allow 8081`
+`sudo ufw allow 7077`  
+`sudo ufw allow 8080`  
+`sudo ufw allow 8081`
 
 #### Test Spark and Cassandra connector (on spark master node)
 
 `sudo /spark/bin/spark-shell --conf spark.cassandra.auth.username=<username> --conf spark.cassandra.auth.password=<password> --jars /spark/jars/spark-cassandra-connector-assembly-2.0.5.jar --master spark://<spark_master_ip>:7077`
 
 ```
-sc.parallelize( 1 to 1000 ).sum()`
+sc.parallelize( 1 to 1000 ).sum()
 ```
 
 `cqlsh -u user -p password <ip> <port>`
@@ -289,16 +288,16 @@ println(rdd.count)
 
 #### Install Kafka (on all node)
 
-`sudo wget http://apache.mirror.cdnetworks.com/kafka/0.11.0.1/kafka_2.11-0.11.0.1.tgz
-sudo tar -xzf kafka_2.11-0.11.0.1.tgz
-cd /kafka_2.11-0.11.0.1`
+`sudo wget http://apache.mirror.cdnetworks.com/kafka/0.11.0.1/kafka_2.11-0.11.0.1.tgz`  
+`sudo tar -xzf kafka_2.11-0.11.0.1.tgz`  
+`cd /kafka_2.11-0.11.0.1`
 
 Create services for kafka and zookeeper (see below in chapter 'Create systemd services').
 
-`sudo ufw allow 9092
-sudo ufw allow 2181
-sudo ufw allow 2888
-sudo ufw allow 3888`
+`sudo ufw allow 9092`  
+`sudo ufw allow 2181`  
+`sudo ufw allow 2888`  
+`sudo ufw allow 3888`
 
 Add in */kafka_2.11-0.11.0.1/config/server.properties*:
 
@@ -348,8 +347,8 @@ bootstrap.servers=<node_ip_1>:9092,<node_ip_2>:9092,<node_ip_3>:9092,<node_ip_4>
 
 Download *spark-streaming-kafka-0-10_2.11-2.2.0.jar*, *org.apache.kafka:kafka_2.11:0.11.0.1*, *org.apache.kafka:kafka-clients:0.11.0.1*, *com.typesafe.akka:akka-stream-kafka_2.11:0.17*, *com.typesafe.akka:akka-stream_2.11:2.5.6*, *com.typesafe.akka:akka-actor_2.11:2.5.6*, *com.typesafe.akka:akka-http_2.11:10.0.10*, *org.datasyslab:geospark:1.0.1* and save to */spark/jars*.
 
-`sudo systemctl start zookeeper.service
-sudo systemctl start kafka.service`
+`sudo systemctl start zookeeper.service`  
+`sudo systemctl start kafka.service`
 
 #### Test
 
@@ -372,15 +371,15 @@ sudo systemctl start kafka.service`
 
 `sudo npm install -g bower`
 
-`cd /zeppelin/`
+`cd /zeppelin/`  
 `./dev/change_scala_version.sh 2.11`
 
 Change in */zeppelin/zeppelin-zengine/src/main/java/org/apache/zeppelin/interpreter/InterpreterSetting.java*:
 * -    setupPropertiesForSparkR(sparkProperties, javaProperties.getProperty("SPARK_HOME"));
 * +    setupPropertiesForSparkR(sparkProperties, System.getenv("SPARK_HOME"));
 
-`mvn clean
-mvn clean package -DskipTests -Pspark-2.2 -Phadoop-2.7 -Ppyspark -Psparkr -Pscala-2.11`
+`mvn clean`  
+`mvn clean package -DskipTests -Pspark-2.2 -Phadoop-2.7 -Ppyspark -Psparkr -Pscala-2.11`
 
 `mv /zeppelin/conf/zeppelin-env.sh.template /zeppelin/conf/zeppelin-env.sh`
 
@@ -433,10 +432,9 @@ cassandra.hosts	                <spark_master_ip>
 
 Create service:
 
-`cd /etc/systemd/system
-sudo nano zeppelin.service
-sudo chmod -v 777 /etc/systemd/system/zeppelin.service
-`
+`cd /etc/systemd/system`  
+`sudo nano zeppelin.service`  
+`sudo chmod -v 777 /etc/systemd/system/zeppelin.service`
 
 zeppelin.service:
 
@@ -461,11 +459,11 @@ StartLimitBurst=10
 [Install]
 WantedBy=multi-user.target
 ```
-`sudo systemctl enable zeppelin.service
-sudo systemctl daemon-reload`
+`sudo systemctl enable zeppelin.service`  
+`sudo systemctl daemon-reload`
 
-`sudo systemctl start zeppelin.service
-sudo systemctl stop zeppelin.service`
+`sudo systemctl start zeppelin.service`  
+`sudo systemctl stop zeppelin.service`
 
 `sudo ufw allow 4040`
 
@@ -473,10 +471,9 @@ See below chapter 'Check Apache Zeppelin notebooks'.
 
 ### Create systemd services (on all node)
 
-`cd /etc/systemd/system
-sudo nano servicename.service
-sudo chmod -v 777 /etc/systemd/system/servicename.service
-`
+`cd /etc/systemd/system`  
+`sudo nano servicename.service`  
+`sudo chmod -v 777 /etc/systemd/system/servicename.service`
 
 servicename.service:
 
@@ -499,13 +496,12 @@ ExecStop=/bin/kill -9 $MAINPID
 WantedBy=multi-user.target
 ```
 
-`sudo systemctl daemon-reload
-sudo reboot
-sudo systemctl start servicename.service
-sudo systemctl stop servicename.service
-sudo systemctl enable servicename.service
-sudo systemctl status servicename.service
-`
+`sudo systemctl daemon-reload`  
+`sudo reboot`  
+`sudo systemctl start servicename.service`  
+`sudo systemctl stop servicename.service`  
+`sudo systemctl enable servicename.service`  
+`sudo systemctl status servicename.service`
 
 Create services for (make sure to have the right order by using "After"-statement):
 * Zookeeper (ExecStart=/kafka_2.11-0.11.0.1/bin/zookeeper-server-start.sh /kafka_2.11-0.11.0.1/config/zookeeper.properties and ExecStop=/kafka_2.11-0.11.0.1/bin/zookeeper-server-stop.sh)
@@ -516,29 +512,28 @@ Create services for (make sure to have the right order by using "After"-statemen
 
 ## Run cluster (start/stop/status) 
 
-`sudo systemctl stop kafka.service
-sudo systemctl stop zookeeper.service
-sudo systemctl stop cassandra.service
-sudo systemctl stop zeppelin.service
-sudo systemctl stop cassandrakafkaconsumer.service
-sudo systemctl stop twitterstreamapp.service
-sudo systemctl stop akkahttpserver.service`
+`sudo systemctl stop kafka.service`  
+`sudo systemctl stop zookeeper.service`  
+`sudo systemctl stop cassandra.service`  
+`sudo systemctl stop zeppelin.service`  
+`sudo systemctl stop cassandrakafkaconsumer.service`  
+`sudo systemctl stop twitterstreamapp.service`  
+`sudo systemctl stop akkahttpserver.service`
 
-`sudo systemctl start cassandra.service
-sudo systemctl start zookeeper.service
-sudo systemctl start kafka.service
-sudo systemctl start zeppelin.service
-sudo systemctl start twitterstreamapp.service
-sudo systemctl start cassandrakafkaconsumer.service
-sudo systemctl start akkahttpserver.service`
+`sudo systemctl start cassandra.service`  
+`sudo systemctl start zookeeper.service`  
+`sudo systemctl start kafka.service`  
+`sudo systemctl start zeppelin.service`  
+`sudo systemctl start twitterstreamapp.service`  
+`sudo systemctl start cassandrakafkaconsumer.service`  
+`sudo systemctl start akkahttpserver.service`
 
 ## Create Apache Cassandra keyspaces
 
 `sudo cqlsh -u cassandra -p cassandra 184.97.49.98 9042`
 
-`CREATE KEYSPACE IF NOT EXISTS  master_dataset WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 3 };
-USE master_dataset;
-`
+`CREATE KEYSPACE IF NOT EXISTS  master_dataset WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 3 };`  
+`USE master_dataset;`
 
 ### Types
 
@@ -806,7 +801,7 @@ We are going to deploy this project to all cluster nodes because we want to run 
 
 ### Clone project to cluster nodes
 
-`git clone git@csl-intern.local.hcu-hamburg.de:marc.vollstedt/SparkPipeline.git`
+`git clone https://github.com/mavoll/SparkPipeline.git`
 
 ### Adjust config files
 
@@ -835,10 +830,9 @@ twitterStream.filter(query)
 
 ### Build project on cluster nodes
 
-`cd /SparkPipeline
-mvn clean package
-mvn compile
-`
+`cd /SparkPipeline`  
+`mvn clean package`  
+`mvn compile`
 
 ## Start/Stop SparkPipeline apps on cluster nodes 
 
@@ -846,23 +840,23 @@ mvn compile
 #### twitterstreamapp
 Responsible to fetch tweets from Twitters Streaming API and publish them to Kafka topic
 
-`sudo systemctl stop twitterstreamapp.service
-sudo systemctl start twitterstreamapp.service
-sudo systemctl status twitterstreamapp.service`
+`sudo systemctl stop twitterstreamapp.service`  
+`sudo systemctl start twitterstreamapp.service`  
+`sudo systemctl status twitterstreamapp.service`
 #### cassandrakafkaconsumer
 Responsible to fetch tweets from Kafka topic and load them to cassandra tables
 
-`sudo systemctl stop cassandrakafkaconsumer.service
-sudo systemctl start cassandrakafkaconsumer.service
-sudo systemctl status cassandrakafkaconsumer.service`
+`sudo systemctl stop cassandrakafkaconsumer.service`  
+`sudo systemctl start cassandrakafkaconsumer.service`  
+`sudo systemctl status cassandrakafkaconsumer.service`
 
 ### Serving Layer
 #### akkahttpserver
 Responsible to execute pre specified queries and retrun results back to web client (through Akka Http).
 
-`sudo systemctl stop akkahttpserver.service
-sudo systemctl start akkahttpserver.service
-sudo systemctl status akkahttpserver.service`
+`sudo systemctl stop akkahttpserver.service`  
+`sudo systemctl start akkahttpserver.service`  
+`sudo systemctl status akkahttpserver.service`
 
 ##### REST Routes: Get tweets
 Returns Tweets within an time frame collected per Twitterstream.

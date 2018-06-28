@@ -1,6 +1,6 @@
-# SmartSquare - Data Analytics Pipeline 
+# Data Analytics Pipeline 
 
-Description of our Data Analytics Pipeline used in our research project "SmartSquare".
+Description of our Data Analytics Pipeline used in our research project.
 
 Steps:
 

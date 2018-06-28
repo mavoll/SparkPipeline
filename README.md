@@ -68,28 +68,19 @@ For hardware choices first see:
 
 #### Install Apache 2 (on all node)
 
-`sudo apt-get install apache2` 
-
-`sudo ufw allow 'Apache Full'` 
-
-`sudo ufw allow 8080` 
-
-`sudo ufw allow 8081` 
-
-`sudo service apache2 start`
+`sudo apt-get install apache2  
+sudo ufw allow 'Apache Full'  
+sudo ufw allow 8080  
+sudo ufw allow 8081  
+sudo service apache2 start`
 
 #### Install Cassandra (on all node)
 
-`echo "deb http://www.apache.org/dist/cassandra/debian 311x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
-
-curl https://www.apache.org/dist/cassandra/KEYS | sudo apt-key add -
-
-sudo apt-get update
-
-sudo apt-get install cassandra
-
-sudo service cassandra start
-
+`echo "deb http://www.apache.org/dist/cassandra/debian 311x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list  
+curl https://www.apache.org/dist/cassandra/KEYS | sudo apt-key add -  
+sudo apt-get update  
+sudo apt-get install cassandra  
+sudo service cassandra start  
 nodetool status`
 
 Configuration files is */etc/cassandra/cassandra.yaml*. Check following:

@@ -68,11 +68,11 @@ For hardware choices first see:
 
 #### Install Apache 2 (on all node)
 
-`sudo apt-get install apache2  
-sudo ufw allow 'Apache Full'  
-sudo ufw allow 8080  
-sudo ufw allow 8081  
-sudo service apache2 start`
+`sudo apt-get install apache2`  
+`sudo ufw allow 'Apache Full'`  
+`sudo ufw allow 8080`  
+`sudo ufw allow 8081`  
+`sudo service apache2 start`
 
 #### Install Cassandra (on all node)
 

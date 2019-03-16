@@ -918,6 +918,16 @@ We are directly filtering our incoming Kafka stream (per node) by predefined ter
 
 ## Check Apache Zeppelin notebooks
 
+Some examples:
+![](Auswahl_001.png?raw=true "")
+![](Auswahl_002.png?raw=true "")
+![](Auswahl_003.png?raw=true "")
+![](Auswahl_004.png?raw=true "")
+![](Auswahl_005.png?raw=true "")
+![](Auswahl_006.png?raw=true "")
+![](Auswahl_007.png?raw=true "")
+![](Auswahl_008.png?raw=true "")
+
 ### Import notebooks
 * Download notebooks from project folder "zeppelin_notebooks" to your lokal file system
 * Use Apache Zeppelins web GUI and import the notebooks saved to your file system into your Zeppelin installation

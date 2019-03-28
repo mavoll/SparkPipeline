@@ -924,7 +924,6 @@ Some examples:
 ![](Auswahl_003.png?raw=true "")
 ![](Auswahl_004.png?raw=true "")
 ![](Auswahl_005.png?raw=true "")
-![](Auswahl_006.png?raw=true "")
 ![](Auswahl_007.png?raw=true "")
 ![](Auswahl_008.png?raw=true "")
 

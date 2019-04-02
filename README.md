@@ -971,6 +971,10 @@ Some examples:
 * Restart Sparks master and slave nodes
 * Spark shell support including Spark-Cassandra Connector  
 
+## Further development and research opportunities
+
+![see poster](poster_A0_f.jpg?raw=true "Social Media Analysis")
+
 ## Authors
 
 * **Marc-André Vollstedt** - marc.vollstedt@gmail.com
